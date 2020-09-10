@@ -46,7 +46,7 @@ void MainGame::init(){
 }
 void MainGame::run(){
   init();
-  //TODO SPRITE
+  sprite.init(-1,-1,1,1);
   update();
 }
 void MainGame::update(){
@@ -58,6 +58,6 @@ void MainGame::update(){
 void MainGame::draw(){
   glClearDepth(1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  //TODO: Update sprite
+  sprite.draw();
   SDL_GL_SwapWindow(window);
 }
