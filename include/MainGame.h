@@ -1,10 +1,13 @@
-#ifndef _MAINGAME_H_
-#define _MAINGAME_H_
+#pragma once
+
+#include <vector>
 
 #include <SDL2\SDL.h>
 #include <GL\glew.h>
 
 #include "Sprite.h"
+#include "GLProgram.h"
+#include "Window.h"
 
 enum class GameState{
   PLAY, EXIT
@@ -13,10 +16,13 @@ enum class GameState{
 class MainGame{
   int width;
   int height;
-  SDL_Window* window;
-  Sprite sprite;
-  void init();
+  GLProgram glProgram;
+  Window window;
+  std::vector<Sprite> sprites;
   void processInput();
+  void init();
+  void initShaders();
+  float time;
 public:
   MainGame();
   ~MainGame();
@@ -25,5 +31,3 @@ public:
   void draw();
   void update();
 };
-
-#endif

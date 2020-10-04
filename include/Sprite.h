@@ -1,7 +1,8 @@
-#ifndef _SPRITE_H_
-#define _SPRITE_H_
+#pragma once
 
 #include <GL\glew.h>
+#include "GLTexture.h"
+#include <string>
 
 using namespace std;
 
@@ -11,11 +12,10 @@ class Sprite{
   int width;
   int height;
   GLuint vboID;
+  GLTexture glTexture;
 public:
   Sprite();
   ~Sprite();
-  void init(float x, float y, int width, int height);
+  void init(float x, float y, int width, int height, string texturePath);
   void draw();
 };
-
-#endif

@@ -1,4 +1,5 @@
 #include "MainGame.h"
+#include "Error.h"
 #include <iostream>
 
 using namespace std;
@@ -21,32 +22,35 @@ void MainGame::processInput(){
 
 //Public
 
-MainGame::MainGame(): window(nullptr), width(800), height(600),
-                      gameState(GameState::PLAY){
+MainGame::MainGame(): width(800), height(600),
+                      gameState(GameState::PLAY), time(0){
 
 }
 MainGame::~MainGame(){
 
 }
+
+void MainGame::initShaders(){
+  glProgram.compileShaders("./shaders/colorShaderVert.glsl",
+                           "./shaders/colorShaderFrag.glsl");
+  
+  glProgram.AddAttribute("vertexPosition");
+  glProgram.AddAttribute("vertexColor");
+  glProgram.AddAttribute("vertexUV");
+  glProgram.linkShader();
+}
+
 void MainGame::init(){
-  window = SDL_CreateWindow("Clase 01", SDL_WINDOWPOS_CENTERED,
-  SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL);
-
-  if(window == nullptr){
-    //TODO: Mostrar error de SDL
-  }
-  SDL_GLContext glContext = SDL_GL_CreateContext(window);
-
-  GLenum error = glewInit();
-  if(error != GLEW_OK){
-    //TODO: Mostrar error de Glew
-  }
-  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-  glClearColor(.0f, .0f, .1f, .1f);
+  sprites = vector<Sprite>(4);
+  window.create("OOF", width, height);
+  initShaders();
 }
 void MainGame::run(){
   init();
-  sprite.init(-1,-1,1,1);
+  sprites[0].init(-1,-1,1,1, "images/Yoshi.png");
+  sprites[1].init(-1,0,1,1, "images/Mario.png");
+  sprites[2].init(0,0,1,1, "images/Bowser.png");
+  sprites[3].init(0,-1,1,1, "images/Kirby.png");
   update();
 }
 void MainGame::update(){
@@ -58,6 +62,20 @@ void MainGame::update(){
 void MainGame::draw(){
   glClearDepth(1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  sprite.draw();
-  SDL_GL_SwapWindow(window);
+  glProgram.use();
+  
+  GLuint timeLocation = glProgram.getUniformLocation("time");
+  GLuint imageLocation = glProgram.getUniformLocation("image");
+
+  glUniform1f(timeLocation, time);
+  glUniform1i(imageLocation, 0);
+
+  time += 0.0002;
+
+  for(Sprite &sprite : sprites){
+    sprite.draw();
+  }
+  
+  glProgram.unuse();
+  window.swapBuffer();
 }

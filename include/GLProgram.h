@@ -1,5 +1,4 @@
-#ifndef _GLPROGRAM_H_
-#define _GLPROGRAM_H_
+#pragma once
 
 #include <GL\glew.h>
 #include <string>
@@ -10,13 +9,18 @@ class GLProgram {
   GLuint programID;
   GLuint fragmentShaderID;
   GLuint vertexShaderID;
+  int numAttribute;
 
   void compileShader(const string& shaderPath, GLuint id);
 public:
   GLProgram();
   ~GLProgram();
   void compileShaders(const string& vertexShaderFilePath,
-                      const string& fragmentShaderFilePath
+                      const string& fragmentShaderFilePath);
+                      
+  void AddAttribute(const string& attributeName);
+  void use();
+  GLuint getUniformLocation(const string& name);
+  void unuse();
+  void linkShader();
 };
-
-#endif
