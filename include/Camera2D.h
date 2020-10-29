@@ -18,8 +18,24 @@ public:
 
     void update();
     void init(int screenWidht, int screenHeight);
+    glm::vec2 getPosition(){
+        return position;
+    }
     void setPosition(const glm::vec2 &newPosition){
         position = newPosition;
         needUpdateMatrix = true;
+    }
+    float getScale(){
+        return scale;
+    }
+    void setScale(float scale){
+        this->scale = scale;
+        needUpdateMatrix = true;
+    }
+    glm::mat4 getCameraMatrix(){
+        return cameraMatrix;
+    }
+    glm::mat4 getOrthoMatrix(){
+        return orthoMatrix;
     }
 };

@@ -16,11 +16,4 @@ void main(){
                  fragmentColor.g * (cos(fragmentPosition.y*8.0 + time) + 1.0)*0.5,
                  fragmentColor.b * (cos(fragmentPosition.x*2.0 + time) + 1.0)*0.5,
                  fragmentColor.a) * textureColor;
-
-    /*
-    color = fragmentColor + vec4(1.0 * (cos(time) + 1.0) * 0.5,
-                                 1.0 * (cos(time + 2.0) + 1.0) * 0.5,
-                                 1.0 * (sin(time + 1.0) + 1.0) * 0.5,
-                                 0.0);
-    */
 }
